@@ -1,0 +1,1 @@
+# nn.embedding(num_embedding=word_nums,embedding_dim=8)
