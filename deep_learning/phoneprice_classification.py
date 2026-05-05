@@ -112,9 +112,6 @@ def predict_model(test_dataset, feature_num, label_num):
     print(f"Accuracy: {acc_rate}")
 
 
-
-
-
 if __name__ == '__main__':
     train_dataset, test_dataset, feature_num, label_num = create_dataset()
     train_model(train_dataset, feature_num, label_num)

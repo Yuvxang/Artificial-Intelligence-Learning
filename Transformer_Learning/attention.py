@@ -25,7 +25,7 @@ def attention(q, k, v, Tensor, mask:torch.Tensor=None, dropout=None):
 
     d_k = q.shape[-1] # size也可以的 d_model
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    # 相似性得分
+    # 相似性得分 对于4维和3维进行兼容。
 
     # 核心 bmm有要求，第一维必须相等，两个张量的batch_size不等会直接报错。
     # matmul QK形状不等也可以广播
@@ -101,6 +101,10 @@ class MultiHeadAttention(nn.Module):
             model_output.reshape(batch_size, -1, self.n_head, self.head_dim)
             model_output = model_output.transpose(1, 2)
             self.linear_output_list.append(model_output)
+
+        # 合并版
+        # linear_output = [model(data).reshape(batch_size, -1, self.n_head, self.head_dim)
+        #                  .transpose(1, 2) for model in self.Linear_List]
 
         # 4 - 计算注意力
         new_query, new_key, new_value = self.linear_output_list
